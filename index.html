@@ -25,15 +25,29 @@
     display: block;
   }
 
-  /* Container styling */
-  .container {
-    width: 400px; /* wider container */
-    margin: 50px auto;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+  /* Container for side-by-side forms */
+  .main-container {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+  }
+
+  /* Individual cubicles styling */
+  .cubicle {
+    flex: 1 1 300px;
+    max-width: 45%;
     background-color: #4B0082; /* deep purple */
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.5);
     color: white;
+  }
+
+  /* Heading styles inside cubicles */
+  .cubicle h2 {
+    text-align: center;
+    margin-top: 0;
   }
 
   /* Labels and inputs styling */
@@ -52,11 +66,11 @@
     box-sizing: border-box;
   }
 
-  /* Buttons styling */
+  /* Buttons styling with cerulean color */
   button {
     width: 100%;
     height: 40px;
-    background-color: #4CAF50;
+    background-color: #007BA7; /* cerulean */
     color: #fff;
     padding: 10px;
     border: none;
@@ -66,13 +80,25 @@
   }
 
   button:hover {
-    background-color: #3e8e41;
+    background-color: #006994; /* darker cerulean on hover */
   }
 
   /* Output message styling */
   #output {
     margin-top: 20px;
     font-size: 16px;
+    text-align: center;
+  }
+
+  /* Responsive adjustments */
+  @media(max-width: 900px){
+    .main-container {
+      flex-direction: column;
+      align-items: center;
+    }
+    .cubicle {
+      max-width: 90%;
+    }
   }
 </style>
 </head>
@@ -80,9 +106,11 @@
 <!-- Starfield Canvas -->
 <canvas id="starfield"></canvas>
 
-<!-- User Forms -->
-<div class="container">
-    <h1>ChimeraQuest</h1>
+<!-- Main container with two cubicles -->
+<div class="main-container">
+  <!-- Registration -->
+  <div class="cubicle">
+    <h2>Register</h2>
     <form id="register-form">
         <label for="reg-username">Username:</label>
         <input type="text" id="reg-username" required>
@@ -94,36 +122,37 @@
         <input type="password" id="reg-confirm-password" required>
         <button type="submit">Register</button>
     </form>
+  </div>
 
-    <form id="login-form" style="margin-top: 30px;">
-        <h2>Login</h2>
+  <!-- Login -->
+  <div class="cubicle">
+    <h2>Return Member</h2>
+    <form id="login-form">
         <label for="login-username">Username:</label>
         <input type="text" id="login-username" required>
         <label for="login-password">Password:</label>
         <input type="password" id="login-password" required>
         <button type="submit">Login</button>
     </form>
-    <div id="output"></div>
+  </div>
 </div>
 
-<!-- JavaScript for starfield and forms -->
+<!-- Script for starfield and forms -->
 <script>
   // Starfield setup
   const canvas = document.getElementById('starfield');
   const ctx = canvas.getContext('2d');
 
   let stars = [];
-  const numStars = 200; // number of tiny stars
+  const numStars = 200;
 
   function resizeCanvas() {
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
   }
-
   window.addEventListener('resize', resizeCanvas);
   resizeCanvas();
 
-  // Generate stars with random positions and slow movement
   for (let i = 0; i < numStars; i++) {
     stars.push({
       x: Math.random() * window.innerWidth,
@@ -133,12 +162,11 @@
     });
   }
 
-  // Animate starfield
   function animateStars() {
     ctx.fillStyle = 'black';
     ctx.fillRect(0, 0, window.innerWidth, window.innerHeight);
-
     ctx.fillStyle = 'white';
+
     stars.forEach(star => {
       star.x -= star.speed;
       if (star.x < 0) {
@@ -158,7 +186,7 @@
   const loginForm = document.getElementById('login-form');
   const outputDiv = document.getElementById('output');
 
-  // Registration
+  // Register
   registerForm.addEventListener('submit', (e) => {
     e.preventDefault();
     const username = document.getElementById('reg-username').value;
@@ -171,7 +199,7 @@
       return;
     }
 
-    // Save user info locally (for demo purposes)
+    // Save user info locally (for demo)
     const user = { username, email, password };
     localStorage.setItem('user', JSON.stringify(user));
     outputDiv.innerHTML = 'User registered successfully!';
