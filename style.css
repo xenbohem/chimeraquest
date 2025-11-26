@@ -1,16 +1,22 @@
 body {
     font-family: Arial, sans-serif;
+    background-color: black; /* Set background to black */
+    margin: 0;
+    padding: 20px;
 }
 
 .container {
-    width: 300px;
+    width: 400px; /* Widen the container */
     margin: 50px auto;
     padding: 20px;
     border: 1px solid #ccc;
     border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    background-color: #4B0082; /* Deep purple background for container */
+    color: white; /* Text color inside container */
 }
 
+/* Style for labels and inputs to fit the theme */
 label {
     display: block;
     margin-bottom: 10px;
@@ -23,8 +29,10 @@ input {
     padding: 10px;
     border: 1px solid #ccc;
     border-radius: 5px;
+    box-sizing: border-box; /* Ensures padding doesn't overflow width */
 }
 
+/* Buttons styling */
 button {
     width: 100%;
     height: 40px;
@@ -34,12 +42,15 @@ button {
     border: none;
     border-radius: 5px;
     cursor: pointer;
+    font-size: 16px;
 }
 
 button:hover {
     background-color: #3e8e41;
 }
 
+/* Output message styling */
 #output {
     margin-top: 20px;
+    font-size: 16px;
 }
